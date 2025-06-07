@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snap Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🛍 Welcome to the Snap Store</h1>
+    <p>You have <span id="coins">100</span> SnapCoins.</p>
+    <div class="item" onclick="buyItem('🧙‍♂️ Wizard Hat')">🧙‍♂️ Wizard Hat – 20 Coins</div>
+    <div class="item" onclick="buyItem('🕶 Cool Glasses')">🕶 Cool Glasses – 15 Coins</div>
+    <p id="purchase-message"></p>
+  </div>
+  <script>
+    function buyItem(item) {
+      document.getElementById('purchase-message').textContent = `${item} purchased!`;
+    }
+  </script>
+</body>
+</html>

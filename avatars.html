@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choose Your Avatar</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .avatar-preview img {
+      width: 120px;
+      margin: 10px;
+      border: 4px solid transparent;
+      border-radius: 12px;
+      transition: transform 0.2s;
+    }
+    .avatar-preview img:hover {
+      transform: scale(1.1);
+      border-color: #2b4eff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧑‍🎨 Pick Your Avatar</h1>
+    <div class="avatar-preview">
+      <img src="assets/avatars/owl-default.png" alt="Default">
+      <img src="assets/avatars/owl-superhero.png" alt="SuperSnap">
+      <img src="assets/avatars/owl-wizard.png" alt="WizardSnap">
+      <img src="assets/avatars/owl-king.png" alt="KingSnap">
+    </div>
+    <p>More avatars can be unlocked in the Snap Store!</p>
+  </div>
+</body>
+</html>
