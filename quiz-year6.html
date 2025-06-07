@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snap Study Quiz - Year 6</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f9ff;
+      text-align: center;
+      padding: 30px;
+    }
+    #question { font-size: 20px; margin-bottom: 20px; }
+    .option {
+      background-color: white;
+      border: 2px solid #4a90e2;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 10px auto;
+      width: 60%;
+      cursor: pointer;
+      display: block;
+    }
+    .option:hover { background-color: #e3f2ff; }
+    #result { margin-top: 20px; font-size: 18px; }
+    #next-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+    }
+    #snap-msg {
+      font-size: 24px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🦉 Snap Study Quiz – Year 6</h1>
+  <p>Earn SnapCoins by getting answers right!</p>
+  <div id="question-container">
+    <div id="question">Loading question...</div>
+    <div id="options"></div>
+    <div id="result"></div>
+    <button id="next-btn">Next</button>
+    <div id="snap-msg"></div>
+  </div>
+
+<script>
+const questions = [
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "faded",
+      "dry",
+      "vivid",
+      "weak"
+    ]
+  },
+  {
+    "word": "reluctant",
+    "definition": "unwilling to do something",
+    "correct": "reluctant",
+    "options": [
+      "happy",
+      "eager",
+      "reluctant",
+      "excited"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "faded",
+      "vivid",
+      "dry",
+      "weak"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "meticulous",
+      "lazy",
+      "messy",
+      "quick"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "meticulous",
+      "messy",
+      "lazy",
+      "quick"
+    ]
+  },
+  {
+    "word": "elaborate",
+    "definition": "detailed and complicated",
+    "correct": "elaborate",
+    "options": [
+      "quick",
+      "elaborate",
+      "rough",
+      "simple"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "meticulous",
+      "lazy",
+      "messy",
+      "quick"
+    ]
+  },
+  {
+    "word": "reluctant",
+    "definition": "unwilling to do something",
+    "correct": "reluctant",
+    "options": [
+      "excited",
+      "reluctant",
+      "eager",
+      "happy"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "vivid",
+      "faded",
+      "weak",
+      "dry"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "ambiguous",
+      "plain",
+      "sharp",
+      "clear"
+    ]
+  },
+  {
+    "word": "elaborate",
+    "definition": "detailed and complicated",
+    "correct": "elaborate",
+    "options": [
+      "quick",
+      "simple",
+      "elaborate",
+      "rough"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "messy",
+      "meticulous",
+      "lazy",
+      "quick"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "weak",
+      "dry",
+      "vivid",
+      "faded"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "dry",
+      "faded",
+      "weak",
+      "vivid"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "weak",
+      "vivid",
+      "dry",
+      "faded"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "messy",
+      "meticulous",
+      "lazy",
+      "quick"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "lazy",
+      "messy",
+      "meticulous",
+      "quick"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "faded",
+      "dry",
+      "vivid",
+      "weak"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "lazy",
+      "quick",
+      "messy",
+      "meticulous"
+    ]
+  },
+  {
+    "word": "reluctant",
+    "definition": "unwilling to do something",
+    "correct": "reluctant",
+    "options": [
+      "reluctant",
+      "excited",
+      "happy",
+      "eager"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "ambiguous",
+      "clear",
+      "sharp",
+      "plain"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "clear",
+      "sharp",
+      "ambiguous",
+      "plain"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "quick",
+      "messy",
+      "meticulous",
+      "lazy"
+    ]
+  },
+  {
+    "word": "elaborate",
+    "definition": "detailed and complicated",
+    "correct": "elaborate",
+    "options": [
+      "simple",
+      "quick",
+      "rough",
+      "elaborate"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "meticulous",
+      "quick",
+      "messy",
+      "lazy"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "lazy",
+      "meticulous",
+      "quick",
+      "messy"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "sharp",
+      "plain",
+      "ambiguous",
+      "clear"
+    ]
+  },
+  {
+    "word": "elaborate",
+    "definition": "detailed and complicated",
+    "correct": "elaborate",
+    "options": [
+      "elaborate",
+      "quick",
+      "simple",
+      "rough"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "plain",
+      "sharp",
+      "clear",
+      "ambiguous"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "clear",
+      "sharp",
+      "plain",
+      "ambiguous"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "dry",
+      "vivid",
+      "weak",
+      "faded"
+    ]
+  },
+  {
+    "word": "reluctant",
+    "definition": "unwilling to do something",
+    "correct": "reluctant",
+    "options": [
+      "eager",
+      "reluctant",
+      "excited",
+      "happy"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "plain",
+      "clear",
+      "sharp",
+      "ambiguous"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "quick",
+      "lazy",
+      "messy",
+      "meticulous"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "plain",
+      "clear",
+      "ambiguous",
+      "sharp"
+    ]
+  },
+  {
+    "word": "reluctant",
+    "definition": "unwilling to do something",
+    "correct": "reluctant",
+    "options": [
+      "excited",
+      "eager",
+      "happy",
+      "reluctant"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "sharp",
+      "ambiguous",
+      "clear",
+      "plain"
+    ]
+  },
+  {
+    "word": "elaborate",
+    "definition": "detailed and complicated",
+    "correct": "elaborate",
+    "options": [
+      "simple",
+      "rough",
+      "elaborate",
+      "quick"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "clear",
+      "plain",
+      "sharp",
+      "ambiguous"
+    ]
+  },
+  {
+    "word": "elaborate",
+    "definition": "detailed and complicated",
+    "correct": "elaborate",
+    "options": [
+      "quick",
+      "simple",
+      "rough",
+      "elaborate"
+    ]
+  },
+  {
+    "word": "reluctant",
+    "definition": "unwilling to do something",
+    "correct": "reluctant",
+    "options": [
+      "eager",
+      "reluctant",
+      "excited",
+      "happy"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "clear",
+      "sharp",
+      "plain",
+      "ambiguous"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "vivid",
+      "faded",
+      "weak",
+      "dry"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "clear",
+      "sharp",
+      "plain",
+      "ambiguous"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "weak",
+      "dry",
+      "faded",
+      "vivid"
+    ]
+  },
+  {
+    "word": "vivid",
+    "definition": "very clear and detailed",
+    "correct": "vivid",
+    "options": [
+      "faded",
+      "vivid",
+      "dry",
+      "weak"
+    ]
+  },
+  {
+    "word": "elaborate",
+    "definition": "detailed and complicated",
+    "correct": "elaborate",
+    "options": [
+      "quick",
+      "rough",
+      "simple",
+      "elaborate"
+    ]
+  },
+  {
+    "word": "ambiguous",
+    "definition": "unclear or having more than one meaning",
+    "correct": "ambiguous",
+    "options": [
+      "ambiguous",
+      "plain",
+      "clear",
+      "sharp"
+    ]
+  },
+  {
+    "word": "meticulous",
+    "definition": "very careful and precise",
+    "correct": "meticulous",
+    "options": [
+      "quick",
+      "lazy",
+      "messy",
+      "meticulous"
+    ]
+  },
+  {
+    "word": "reluctant",
+    "definition": "unwilling to do something",
+    "correct": "reluctant",
+    "options": [
+      "reluctant",
+      "happy",
+      "excited",
+      "eager"
+    ]
+  }
+];
+let current = 0;
+let correct = 0;
+let coins = 0;
+
+function showQuestion() {
+  const q = questions[current];
+  document.getElementById("question").innerText = `${q.word}: ${q.definition}`;
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.innerText = opt;
+    btn.onclick = () => selectAnswer(opt, q.correct);
+    optionsDiv.appendChild(btn);
+  });
+  document.getElementById("result").innerText = "";
+  document.getElementById("next-btn").style.display = "none";
+  document.getElementById("snap-msg").innerText = "";
+}
+
+function selectAnswer(selected, correctAnswer) {
+  const result = document.getElementById("result");
+  const msg = document.getElementById("snap-msg");
+  if (selected === correctAnswer) {
+    result.innerText = "✅ Correct!";
+    coins += 10;
+    correct++;
+    msg.innerText = "🦉 Snap says: Hoot hoot! +10 SnapCoins!";
+  } else {
+    result.innerText = "❌ Oops! The correct answer was: " + correctAnswer;
+    msg.innerText = "🦉 Snap says: Try again next time!";
+  }
+  document.getElementById("next-btn").style.display = "inline-block";
+}
+
+document.getElementById("next-btn").onclick = () => {
+  current++;
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    document.getElementById("question-container").innerHTML = `
+      <h2>🎉 Quiz Complete!</h2>
+      <p>You scored ${correct} out of ${questions.length}</p>
+      <p>Total SnapCoins earned: ${coins}</p>
+      <p>🦉 Snap says: Amazing job!</p>
+    `;
+  }
+};
+
+showQuestion();
+</script>
+</body>
+</html>

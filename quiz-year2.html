@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snap Study Quiz - Year 2</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f9ff;
+      text-align: center;
+      padding: 30px;
+    }
+    #question { font-size: 20px; margin-bottom: 20px; }
+    .option {
+      background-color: white;
+      border: 2px solid #4a90e2;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin: 10px auto;
+      width: 60%;
+      cursor: pointer;
+      display: block;
+    }
+    .option:hover { background-color: #e3f2ff; }
+    #result { margin-top: 20px; font-size: 18px; }
+    #next-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+    }
+    #snap-msg {
+      font-size: 24px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🦉 Snap Study Quiz – Year 2</h1>
+  <p>Earn SnapCoins by getting answers right!</p>
+  <div id="question-container">
+    <div id="question">Loading question...</div>
+    <div id="options"></div>
+    <div id="result"></div>
+    <button id="next-btn">Next</button>
+    <div id="snap-msg"></div>
+  </div>
+
+<script>
+const questions = [
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "bored",
+      "angry",
+      "cheerful",
+      "sad"
+    ]
+  },
+  {
+    "word": "swift",
+    "definition": "very fast",
+    "correct": "swift",
+    "options": [
+      "soft",
+      "large",
+      "blue",
+      "swift"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "loud",
+      "slow",
+      "tiny",
+      "gigantic"
+    ]
+  },
+  {
+    "word": "swift",
+    "definition": "very fast",
+    "correct": "swift",
+    "options": [
+      "large",
+      "blue",
+      "swift",
+      "soft"
+    ]
+  },
+  {
+    "word": "glimmer",
+    "definition": "a small, faint light",
+    "correct": "glimmer",
+    "options": [
+      "shade",
+      "dark",
+      "glimmer",
+      "shadow"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "gigantic",
+      "slow",
+      "loud",
+      "tiny"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "quiet",
+      "lazy",
+      "brave",
+      "scared"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "quiet",
+      "brave",
+      "scared",
+      "lazy"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "bored",
+      "sad",
+      "angry",
+      "cheerful"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "angry",
+      "sad",
+      "cheerful",
+      "bored"
+    ]
+  },
+  {
+    "word": "swift",
+    "definition": "very fast",
+    "correct": "swift",
+    "options": [
+      "swift",
+      "large",
+      "soft",
+      "blue"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "tiny",
+      "gigantic",
+      "loud",
+      "slow"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "gigantic",
+      "slow",
+      "tiny",
+      "loud"
+    ]
+  },
+  {
+    "word": "swift",
+    "definition": "very fast",
+    "correct": "swift",
+    "options": [
+      "blue",
+      "soft",
+      "large",
+      "swift"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "cheerful",
+      "angry",
+      "sad",
+      "bored"
+    ]
+  },
+  {
+    "word": "swift",
+    "definition": "very fast",
+    "correct": "swift",
+    "options": [
+      "blue",
+      "swift",
+      "large",
+      "soft"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "bored",
+      "cheerful",
+      "sad",
+      "angry"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "cheerful",
+      "bored",
+      "angry",
+      "sad"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "sad",
+      "angry",
+      "bored",
+      "cheerful"
+    ]
+  },
+  {
+    "word": "glimmer",
+    "definition": "a small, faint light",
+    "correct": "glimmer",
+    "options": [
+      "shade",
+      "glimmer",
+      "dark",
+      "shadow"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "sad",
+      "bored",
+      "cheerful",
+      "angry"
+    ]
+  },
+  {
+    "word": "glimmer",
+    "definition": "a small, faint light",
+    "correct": "glimmer",
+    "options": [
+      "shadow",
+      "glimmer",
+      "shade",
+      "dark"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "angry",
+      "bored",
+      "cheerful",
+      "sad"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "bored",
+      "cheerful",
+      "sad",
+      "angry"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "loud",
+      "gigantic",
+      "slow",
+      "tiny"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "cheerful",
+      "sad",
+      "bored",
+      "angry"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "loud",
+      "gigantic",
+      "slow",
+      "tiny"
+    ]
+  },
+  {
+    "word": "swift",
+    "definition": "very fast",
+    "correct": "swift",
+    "options": [
+      "swift",
+      "large",
+      "blue",
+      "soft"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "cheerful",
+      "bored",
+      "sad",
+      "angry"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "scared",
+      "quiet",
+      "brave",
+      "lazy"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "lazy",
+      "brave",
+      "scared",
+      "quiet"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "loud",
+      "slow",
+      "gigantic",
+      "tiny"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "cheerful",
+      "bored",
+      "angry",
+      "sad"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "tiny",
+      "slow",
+      "loud",
+      "gigantic"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "tiny",
+      "slow",
+      "gigantic",
+      "loud"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "scared",
+      "quiet",
+      "brave",
+      "lazy"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "brave",
+      "scared",
+      "lazy",
+      "quiet"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "bored",
+      "cheerful",
+      "sad",
+      "angry"
+    ]
+  },
+  {
+    "word": "swift",
+    "definition": "very fast",
+    "correct": "swift",
+    "options": [
+      "swift",
+      "soft",
+      "large",
+      "blue"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "gigantic",
+      "tiny",
+      "loud",
+      "slow"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "bored",
+      "cheerful",
+      "sad",
+      "angry"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "slow",
+      "gigantic",
+      "loud",
+      "tiny"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "scared",
+      "quiet",
+      "brave",
+      "lazy"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "cheerful",
+      "bored",
+      "angry",
+      "sad"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "sad",
+      "bored",
+      "cheerful",
+      "angry"
+    ]
+  },
+  {
+    "word": "glimmer",
+    "definition": "a small, faint light",
+    "correct": "glimmer",
+    "options": [
+      "glimmer",
+      "shadow",
+      "shade",
+      "dark"
+    ]
+  },
+  {
+    "word": "gigantic",
+    "definition": "very big",
+    "correct": "gigantic",
+    "options": [
+      "gigantic",
+      "tiny",
+      "slow",
+      "loud"
+    ]
+  },
+  {
+    "word": "brave",
+    "definition": "showing courage",
+    "correct": "brave",
+    "options": [
+      "brave",
+      "lazy",
+      "quiet",
+      "scared"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "sad",
+      "cheerful",
+      "bored",
+      "angry"
+    ]
+  },
+  {
+    "word": "cheerful",
+    "definition": "happy and positive",
+    "correct": "cheerful",
+    "options": [
+      "sad",
+      "cheerful",
+      "bored",
+      "angry"
+    ]
+  }
+];
+let current = 0;
+let correct = 0;
+let coins = 0;
+
+function showQuestion() {
+  const q = questions[current];
+  document.getElementById("question").innerText = `${q.word}: ${q.definition}`;
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.innerText = opt;
+    btn.onclick = () => selectAnswer(opt, q.correct);
+    optionsDiv.appendChild(btn);
+  });
+  document.getElementById("result").innerText = "";
+  document.getElementById("next-btn").style.display = "none";
+  document.getElementById("snap-msg").innerText = "";
+}
+
+function selectAnswer(selected, correctAnswer) {
+  const result = document.getElementById("result");
+  const msg = document.getElementById("snap-msg");
+  if (selected === correctAnswer) {
+    result.innerText = "✅ Correct!";
+    coins += 10;
+    correct++;
+    msg.innerText = "🦉 Snap says: Hoot hoot! +10 SnapCoins!";
+  } else {
+    result.innerText = "❌ Oops! The correct answer was: " + correctAnswer;
+    msg.innerText = "🦉 Snap says: Try again next time!";
+  }
+  document.getElementById("next-btn").style.display = "inline-block";
+}
+
+document.getElementById("next-btn").onclick = () => {
+  current++;
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    document.getElementById("question-container").innerHTML = `
+      <h2>🎉 Quiz Complete!</h2>
+      <p>You scored ${correct} out of ${questions.length}</p>
+      <p>Total SnapCoins earned: ${coins}</p>
+      <p>🦉 Snap says: Amazing job!</p>
+    `;
+  }
+};
+
+showQuestion();
+</script>
+</body>
+</html>
